@@ -7,9 +7,9 @@ from database import (
     get_transactions_by_month, get_category_totals, get_balance_summary
 )
 
-# -----------------------------
+
 # App setup
-# -----------------------------
+
 app = FastAPI(title="Simple Money Tracker")
 
 # Valid categories
@@ -21,9 +21,9 @@ VALID_INCOME_CATEGORIES = ["salary", "freelance", "gift", "business", "other"]
 def startup_event():
     init_database()
 
-# -----------------------------
+
 # Validation helper functions
-# -----------------------------
+
 def validate_category(category: str, transaction_type: str):
     """Check if the category is valid for the given type."""
     valid_list = VALID_EXPENSE_CATEGORIES if transaction_type == "expense" else VALID_INCOME_CATEGORIES
@@ -48,9 +48,9 @@ def validate_amount(amount: Decimal):
     if amount <= 0:
         raise HTTPException(status_code=400, detail="Amount must be positive")
 
-# -----------------------------
+
 # Home route
-# -----------------------------
+
 @app.get("/")
 def home():
     return {
@@ -72,9 +72,9 @@ def home():
         }
     }
 
-# -----------------------------
+
 # POST: Add Expense (Form Data)
-# -----------------------------
+
 @app.post("/spent")
 def add_expense(
     amount: str = Form(..., description="Amount as string (e.g., '45.50')"),
@@ -98,9 +98,9 @@ def add_expense(
         "data": transaction
     }
 
-# -----------------------------
+
 # POST: Add Income (Form Data)
-# -----------------------------
+
 @app.post("/earned")
 def add_income(
     amount: str = Form(..., description="Amount as string (e.g., '1000.00')"),
@@ -124,9 +124,9 @@ def add_income(
         "data": transaction
     }
 
-# -----------------------------
+
 # GET: View All Transactions
-# -----------------------------
+
 @app.get("/view")
 def view_all():
     txns = get_all_transactions()
@@ -134,9 +134,9 @@ def view_all():
         return {"message": "No transactions yet."}
     return {"total": len(txns), "transactions": txns}
 
-# -----------------------------
+
 # GET: Check Balance
-# -----------------------------
+
 @app.get("/balance")
 def check_balance():
     income, expense, balance = get_balance_summary()
@@ -147,9 +147,9 @@ def check_balance():
         "message": f"You have ${balance:.2f} available."
     }
 
-# -----------------------------
+
 # GET: Monthly Summary
-# -----------------------------
+
 @app.get("/monthly/{year}/{month}")
 def monthly_summary(year: int, month: int):
     if not (1 <= month <= 12):
@@ -174,9 +174,9 @@ def monthly_summary(year: int, month: int):
         "transactions": month_txns
     }
 
-# -----------------------------
+
 # GET: Category Totals
-# -----------------------------
+
 @app.get("/categories")
 def category_totals():
     expense_totals, income_totals = get_category_totals()
@@ -185,9 +185,9 @@ def category_totals():
         "income_categories": income_totals
     }
 
-# -----------------------------
+
 # GET: Available Categories
-# -----------------------------
+
 @app.get("/category-list")
 def category_list():
     return {

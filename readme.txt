@@ -4,8 +4,8 @@ A production-ready money tracking web service with PostgreSQL database and Docke
 
 ## Features
 
-Add income and expense transactions via POST endpoints
- View all transactions with pagination
+Add income and expense transactions
+View all transactions 
 Check current balance
 Monthly summary reports
 Category-wise spending analysis
@@ -40,9 +40,9 @@ Interactive Docs: http://localhost:8000/docs
 
 
 Data Entry (POST)
-Add Expense: POST /spent (form data)
+Add Expense: POST /spent
 
-Add Income: POST /earned (form data)
+Add Income: POST /earned
 
 Data Viewing (GET)
 Home: GET /
